@@ -1,0 +1,3 @@
+package org.breizhcamp.dorikell.infrastructure.http.utils
+
+interface AuthorizedHttpClient

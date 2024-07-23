@@ -1,0 +1,27 @@
+server:
+  port: 4009
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/dorikell
+    username: dorikell
+    password: dorikell
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: dorikell-api
+            client-secret: E9VQEP9sxbb7luUR7T9xs48Ky072eRrQ
+            authorization-grant-type: client_credentials
+        provider:
+          keycloak:
+            token-uri: http://localhost:8080/realms/DevKeyCloak/protocol/openid-connect/token
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/DevKeyCloak
+
+dorikell:
+  kalon:
+    url: http://localhost:4007
+  bilhed:
+    url: http://localhost:4006

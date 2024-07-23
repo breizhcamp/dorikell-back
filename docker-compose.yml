@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  postgresql:
+    image: postgres:15.2
+    container_name: dorikell-db
+    environment:
+      - POSTGRES_DB=dorikell
+      - POSTGRES_USER=dorikell
+      - POSTGRES_PASSWORD=dorikell
+    command: -p 5434
+    ports:
+      - "5434:5434"
