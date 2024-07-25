@@ -1,13 +1,13 @@
 package org.breizhcamp.dorikell.application.mappers
 
 import org.breizhcamp.dorikell.application.responses.PersonResponse
-import org.breizhcamp.dorikell.domain.entities.Desk
 import org.breizhcamp.dorikell.domain.entities.Event
+import org.breizhcamp.dorikell.domain.entities.EventDesk
 import org.breizhcamp.dorikell.domain.entities.Person
 import org.breizhcamp.dorikell.domain.entities.enums.BadgeTypeEnum
 import java.time.LocalDate
 
-fun Person.toResponse(desk: Desk): PersonResponse =
+fun Person.toResponse(desk: EventDesk): PersonResponse =
     PersonResponse(
         id = id,
         code = code,

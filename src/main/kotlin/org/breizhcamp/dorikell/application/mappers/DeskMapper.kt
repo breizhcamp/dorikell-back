@@ -1,10 +1,17 @@
 package org.breizhcamp.dorikell.application.mappers
 
-import org.breizhcamp.dorikell.application.responses.DeskResponse
-import org.breizhcamp.dorikell.domain.entities.Desk
+import org.breizhcamp.dorikell.application.responses.EventDeskResponse
+import org.breizhcamp.dorikell.application.responses.GeneralDeskResponse
+import org.breizhcamp.dorikell.domain.entities.EventDesk
+import org.breizhcamp.dorikell.domain.entities.GeneralDesk
 
-fun Desk.toResponse(): DeskResponse = DeskResponse(
+fun EventDesk.toResponse(): EventDeskResponse = EventDeskResponse(
     id = id,
     name = name,
     codes = codes
+)
+
+fun GeneralDesk.toResponse(): GeneralDeskResponse = GeneralDeskResponse(
+    id = id,
+    name = name
 )

@@ -2,6 +2,7 @@ package org.breizhcamp.dorikell.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -81,7 +82,10 @@ class SecurityConfig {
             }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authenticationProvider(authenticationProvider())
-            .authorizeHttpRequests { it.anyRequest().permitAll() }
+            .authorizeHttpRequests { it.requestMatchers(HttpMethod.GET, "/api/**").hasRole("DORIKELL") }
+            .authorizeHttpRequests { it.requestMatchers(HttpMethod.POST, "/api/search/**").hasRole("DORIKELL") }
+            .authorizeHttpRequests { it.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN") }
+            .authorizeHttpRequests { it.requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN") }
             .oauth2Client(Customizer.withDefaults())
             .build()
 
@@ -118,6 +122,6 @@ class SecurityConfig {
     }
 
     private fun generateAuthoritiesForClaim(authorities: Collection<String>): Collection<GrantedAuthority> =
-        authorities.map { SimpleGrantedAuthority(it) }
+        authorities.map { SimpleGrantedAuthority("ROLE_${it.uppercase()}") }
 
 }

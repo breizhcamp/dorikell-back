@@ -14,6 +14,6 @@ data class PersonResponse(
     val company: String?,
     val badgeType: BadgeTypeEnum,
     val days: List<LocalDate>,
-    val desk: DeskResponse,
+    val desk: EventDeskResponse,
     val checkInDate: LocalDateTime?
 )

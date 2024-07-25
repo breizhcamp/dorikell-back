@@ -1,6 +1,7 @@
 package org.breizhcamp.dorikell.domain.use_cases
 
-import org.breizhcamp.dorikell.domain.entities.Desk
+import org.breizhcamp.dorikell.domain.entities.EventDesk
+import org.breizhcamp.dorikell.domain.entities.GeneralDesk
 import org.breizhcamp.dorikell.domain.entities.Person
 import org.breizhcamp.dorikell.domain.use_cases.ports.DeskPort
 import org.breizhcamp.dorikell.domain.use_cases.ports.EventPort
@@ -13,8 +14,8 @@ class DeskCRUD(
     private val eventPort: EventPort
 ) {
 
-    fun getByPerson(person: Person): Desk = deskPort.getByPerson(person)
-    fun getAllByEventId(eventId: Int): List<Desk> {
+    fun getByPerson(person: Person): EventDesk = deskPort.getByPerson(person)
+    fun getAllByEventId(eventId: Int): List<EventDesk> {
         if (eventPort.list().none { it.id == eventId }) {
             eventPort.import()
             if (eventPort.list().none { it.id == eventId }) {
@@ -25,4 +26,9 @@ class DeskCRUD(
         return deskPort.getAllByEventId(eventId)
     }
 
+    fun getAll(): List<GeneralDesk> =
+        deskPort.getAll()
+
+    fun create(name: String): GeneralDesk =
+        deskPort.create(name)
 }

@@ -90,4 +90,9 @@
         </preConditions>
         <dropTable tableName="person"/>
     </changeSet>
+    
+    <changeSet id="1.0.5" author="Claire">
+        <dropPrimaryKey tableName="codes"/>
+        <addPrimaryKey tableName="codes" columnNames="desk_id,event_id"/>
+    </changeSet>
 </databaseChangeLog>
