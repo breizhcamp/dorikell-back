@@ -1,0 +1,26 @@
+@startuml
+skinparam linetype ortho
+
+entity event {
+*id : number
+--
+event_start : date
+}
+
+entity desk {
+*id : uuid <<generated>>
+--
+*name : text
+}
+
+entity codes {
+*desk_id : uuid <<FK>>
+*event_id : number <<FK>>
+--
+*first_code : number
+*last_code : number
+}
+
+event ||--o{ codes
+desk ||--o{ codes
+@enduml

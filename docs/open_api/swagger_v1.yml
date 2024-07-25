@@ -1,0 +1,235 @@
+openapi: "3.0.3"
+info:
+  title: "dorikell API"
+  description: "dorikell API"
+  version: "1.0.0"
+servers:
+  - url: "https://dorikell"
+paths:
+  /api/search/{eventId}:
+    post:
+      summary: "POST api/search/{eventId}"
+      operationId: "search"
+      parameters:
+        - name: "eventId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+        - name: "q"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/PersonResponse"
+  /api/import/{eventId}:
+    post:
+      summary: "POST api/import/{eventId}"
+      operationId: "importFromBilhed"
+      parameters:
+        - name: "eventId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "integer"
+                format: "int32"
+  /api/desks:
+    post:
+      summary: "POST api/desks"
+      operationId: "create"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "string"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GeneralDeskResponse"
+    get:
+      summary: "GET api/desks"
+      operationId: "listAll"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/GeneralDeskResponse"
+  /api/desks/{eventId}:
+    post:
+      summary: "POST api/desks/{eventId}"
+      operationId: "associateDeskToEvent"
+      parameters:
+        - name: "eventId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssociateRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EventDeskResponse"
+    get:
+      summary: "GET api/desks/{eventId}"
+      operationId: "listForEvent"
+      parameters:
+        - name: "eventId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/EventDeskResponse"
+  /api/desks/{eventId}/{deskId}:
+    delete:
+      summary: "DELETE api/desks/{eventId}/{deskId}"
+      operationId: "dissociateDeskFromEvent"
+      parameters:
+        - name: "eventId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+        - name: "deskId"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GeneralDeskResponse"
+components:
+  schemas:
+    EventDeskResponse:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          format: "uuid"
+        name:
+          type: "string"
+        codes:
+          type: "integer"
+          format: "int32"
+      required:
+        - "id"
+        - "name"
+        - "codes"
+    PersonResponse:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          format: "uuid"
+        code:
+          type: "integer"
+          format: "int32"
+        barcode:
+          type: "string"
+        lastname:
+          type: "string"
+        firstname:
+          type: "string"
+        company:
+          type: "string"
+        badgeType:
+          type: "string"
+          enum:
+            - "TWO_DAYS"
+            - "THREE_DAYS"
+            - "SPONSOR_THREE_DAYS"
+            - "EXHIBITOR"
+            - "STAFF"
+            - "SPEAKER"
+            - "INVITATION"
+        days:
+          type: "array"
+          items:
+            type: "string"
+            format: "date"
+        desk:
+          $ref: "#/components/schemas/EventDeskResponse"
+        checkInDate:
+          type: "string"
+          format: "date-time"
+      required:
+        - "id"
+        - "barcode"
+        - "lastname"
+        - "firstname"
+        - "badgeType"
+        - "days"
+        - "desk"
+    GeneralDeskResponse:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          format: "uuid"
+        name:
+          type: "string"
+      required:
+        - "id"
+        - "name"
+    AssociateRequest:
+      type: "object"
+      properties:
+        deskId:
+          type: "string"
+          format: "uuid"
+        first:
+          type: "integer"
+          format: "int32"
+        last:
+          type: "integer"
+          format: "int32"
+      required:
+        - "deskId"
